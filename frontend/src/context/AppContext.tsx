@@ -200,19 +200,31 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setLanguage(langCode);
     document.documentElement.lang = langCode;
 
-    // Set Google Translate cookie format
     const targetLang = langCode === 'pt-BR' ? 'pt' : langCode;
+
     document.cookie = `googtrans=/pt/${targetLang}; path=/;`;
     document.cookie = `googtrans=/pt/${targetLang}; domain=${window.location.hostname}; path=/;`;
 
-    // Dispatch event to Google Translate combo if present
+    window.dispatchEvent(
+      new CustomEvent('ensine-slz:language-change', {
+        detail: { langCode: targetLang },
+      })
+    );
+
     const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
     if (select) {
       select.value = targetLang;
-      select.dispatchEvent(new Event('change'));
-    } else {
-      window.location.reload();
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      return;
     }
+
+    setTimeout(() => {
+      const retrySelect = document.querySelector<HTMLSelectElement>('.goog-te-combo');
+      if (retrySelect) {
+        retrySelect.value = targetLang;
+        retrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }, 100);
   }, []);
 
   const unreadNotificationsCount = notificationList.filter((n) => !n.read).length;

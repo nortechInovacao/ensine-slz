@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AppProvider } from '@/context/AppContext';
+import { VlibrasWidget } from '@/components/VlibrasWidget';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 ${inter.className} antialiased selection:bg-slz-500 selection:text-white`}>
         <AppProvider>
           {children}
+          <VlibrasWidget />
         </AppProvider>
       </body>
     </html>

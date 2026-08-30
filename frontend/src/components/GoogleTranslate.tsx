@@ -25,19 +25,29 @@ export const GoogleTranslate: React.FC = () => {
   const { language } = useApp();
 
   useEffect(() => {
-    // 1. Function to apply translation when Google Translate element is ready
-    const applyTranslation = (langCode: string) => {
+    const applyTranslation = (langCode: string, attempts = 0) => {
       const targetLang = langCode === 'pt-BR' ? 'pt' : langCode;
       const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
+
       if (select) {
         if (select.value !== targetLang) {
           select.value = targetLang;
-          select.dispatchEvent(new Event('change'));
+          select.dispatchEvent(new Event('change', { bubbles: true }));
         }
+        return;
+      }
+
+      if (attempts < 30) {
+        setTimeout(() => applyTranslation(langCode, attempts + 1), 100);
       }
     };
 
-    // 2. Define global callback for script
+    const handleLanguageChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{ langCode?: string }>;
+      const nextLang = customEvent.detail?.langCode ?? language;
+      applyTranslation(nextLang, 0);
+    };
+
     window.googleTranslateElementInit = () => {
       if (window.google?.translate?.TranslateElement) {
         new window.google.translate.TranslateElement(
@@ -48,24 +58,28 @@ export const GoogleTranslate: React.FC = () => {
           'google_translate_element'
         );
 
-        // Apply selected language after initialization delay
         setTimeout(() => {
           const currentLang = document.documentElement.lang || 'pt-BR';
-          applyTranslation(currentLang);
-        }, 300);
+          applyTranslation(currentLang, 0);
+        }, 150);
       }
     };
 
-    // 3. Inject script if not present
+    window.addEventListener('ensine-slz:language-change', handleLanguageChange);
+
     if (!document.getElementById('google-translate-script')) {
       const script = document.createElement('script');
       script.id = 'google-translate-script';
       script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
       document.body.appendChild(script);
-    } else if (window.google?.translate?.TranslateElement) {
-      applyTranslation(language);
     }
+
+    applyTranslation(language, 0);
+
+    return () => {
+      window.removeEventListener('ensine-slz:language-change', handleLanguageChange);
+    };
   }, [language]);
 
   return (
