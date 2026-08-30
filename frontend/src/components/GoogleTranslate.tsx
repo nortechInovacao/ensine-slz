@@ -48,6 +48,10 @@ export const GoogleTranslate: React.FC = () => {
       applyTranslation(nextLang, 0);
     };
 
+    document.documentElement.lang = 'pt-BR';
+    document.cookie = 'googtrans=/pt/pt; path=/;';
+    document.cookie = `googtrans=/pt/pt; domain=${window.location.hostname}; path=/;`;
+
     window.googleTranslateElementInit = () => {
       if (window.google?.translate?.TranslateElement) {
         new window.google.translate.TranslateElement(
@@ -61,6 +65,7 @@ export const GoogleTranslate: React.FC = () => {
         setTimeout(() => {
           const currentLang = document.documentElement.lang || 'pt-BR';
           applyTranslation(currentLang, 0);
+          applyTranslation('pt-BR', 0);
         }, 150);
       }
     };
@@ -75,7 +80,8 @@ export const GoogleTranslate: React.FC = () => {
       document.body.appendChild(script);
     }
 
-    applyTranslation(language, 0);
+    applyTranslation(language === 'pt-BR' ? 'pt-BR' : language, 0);
+    applyTranslation('pt-BR', 0);
 
     return () => {
       window.removeEventListener('ensine-slz:language-change', handleLanguageChange);

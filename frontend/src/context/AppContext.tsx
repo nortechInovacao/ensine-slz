@@ -197,10 +197,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState('pt-BR');
 
   const changeLanguage = useCallback((langCode: string) => {
-    setLanguage(langCode);
-    document.documentElement.lang = langCode;
+    const normalizedLang = langCode === 'pt' ? 'pt-BR' : langCode;
+    setLanguage(normalizedLang);
+    document.documentElement.lang = normalizedLang;
 
-    const targetLang = langCode === 'pt-BR' ? 'pt' : langCode;
+    const targetLang = normalizedLang === 'pt-BR' ? 'pt' : normalizedLang;
 
     document.cookie = `googtrans=/pt/${targetLang}; path=/;`;
     document.cookie = `googtrans=/pt/${targetLang}; domain=${window.location.hostname}; path=/;`;
