@@ -23,7 +23,6 @@ import { SearchModal } from '@/components/SearchModal';
 import { AccessibilityModal } from '@/components/AccessibilityModal';
 import { NotificationsDrawer } from '@/components/NotificationsDrawer';
 import { AuthModal } from '@/components/AuthModal';
-import { GoogleTranslate } from '@/components/GoogleTranslate';
 
 export default function Home() {
   const { currentView, accessibility } = useApp();
@@ -73,7 +72,6 @@ export default function Home() {
       <AccessibilityModal />
       <NotificationsDrawer />
       <AuthModal />
-      <GoogleTranslate />
     </div>
   );
 }
