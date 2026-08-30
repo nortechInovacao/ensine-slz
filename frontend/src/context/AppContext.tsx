@@ -18,7 +18,13 @@ export type ViewMode =
   | 'sobre';
 
 // ─── Auth ──────────────────────────────────────────────────────────────────────
-export type AuthRole = 'estudante' | 'docente' | 'admin';
+export type AuthRole =
+  | 'estudante'
+  | 'professor'
+  | 'instituicao'
+  | 'parceiro'
+  | 'docente'
+  | 'admin';
 export type UserRole = AuthRole;
 
 export interface AppUser {
@@ -73,7 +79,7 @@ interface AppContextValue {
   isLoggedIn: boolean;
   setIsLoggedIn: (v: boolean) => void;
   user: AppUser;
-  setUser: (u: AppUser) => void;
+  setUser: (u: AppUser | ((prev: AppUser) => AppUser)) => void;
 
   // Auth modal
   isAuthModalOpen: boolean;

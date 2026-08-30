@@ -79,6 +79,10 @@ export const ModoAAprender: React.FC = () => {
     },
   ];
 
+  const progressPercent = activeTrackProgress
+    ? Math.round((activeTrackProgress.completedSteps.length / steps.length) * 100)
+    : 0;
+
   // Visual ASCII progress bar string generator
   const getAsciiProgressBar = (pct: number) => {
     const totalBlocks = 10;
@@ -113,7 +117,7 @@ export const ModoAAprender: React.FC = () => {
                 Seu Progresso Atual na Trilha
               </span>
               <div className="font-mono text-sm text-emerald-400 font-bold tracking-wider">
-                `{getAsciiProgressBar(activeTrackProgress)}`
+                `{getAsciiProgressBar(progressPercent)}`
               </div>
             </div>
           </div>
@@ -170,7 +174,7 @@ export const ModoAAprender: React.FC = () => {
           {/* Steps List */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {steps.map((step) => {
-              const isCompleted = user.completedTrackSteps.includes(step.id);
+              const isCompleted = activeTrackProgress?.completedSteps.includes(String(step.id)) ?? false;
 
               return (
                 <div
@@ -192,7 +196,7 @@ export const ModoAAprender: React.FC = () => {
                     </div>
 
                     <button
-                      onClick={() => updateTrackStep(step.id, !isCompleted)}
+                      onClick={() => updateTrackStep('programacao', String(step.id), !isCompleted)}
                       className="text-xs font-bold flex items-center gap-1 focus:outline-none"
                       title={isCompleted ? 'Marcar como não concluído' : 'Marcar como concluído'}
                     >
@@ -282,7 +286,7 @@ export const ModoAAprender: React.FC = () => {
               <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3">
                 <button
                   onClick={() => {
-                    updateTrackStep(activeStepModal, true);
+                    updateTrackStep('programacao', String(activeStepModal), true);
                     setActiveStepModal(null);
                   }}
                   className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg shadow transition"
