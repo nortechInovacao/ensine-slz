@@ -262,9 +262,37 @@ export const Navbar: React.FC = () => {
                 onChange={(event) => changeLanguage(event.target.value)}
                 className="max-w-36 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
               >
-                <optgroup label="Idioma">
+                <optgroup label="Américas">
                   <option value="pt-BR">🇧🇷 Português</option>
+                  <option value="es">🇪🇸 Español</option>
                   <option value="en">🇺🇸 English</option>
+                </optgroup>
+                <optgroup label="Europa">
+                  <option value="fr">🇫🇷 Français</option>
+                  <option value="de">🇩🇪 Deutsch</option>
+                  <option value="it">🇮🇹 Italiano</option>
+                  <option value="nl">🇳🇱 Nederlands</option>
+                  <option value="pl">🇵🇱 Polski</option>
+                  <option value="ru">🇷🇺 Русский</option>
+                  <option value="uk">🇺🇦 Українська</option>
+                  <option value="tr">🇹🇷 Türkçe</option>
+                  <option value="el">🇬🇷 Ελληνικά</option>
+                  <option value="ro">🇷🇴 Română</option>
+                  <option value="sv">🇸🇪 Svenska</option>
+                </optgroup>
+                <optgroup label="Ásia / Oriente Médio">
+                  <option value="ar">🇸🇦 العربية</option>
+                  <option value="hi">🇮🇳 हिन्दी</option>
+                  <option value="ja">🇯🇵 日本語</option>
+                  <option value="ko">🇰🇷 한국어</option>
+                  <option value="zh-CN">🇨🇳 简体中文</option>
+                  <option value="zh-TW">🇹🇼 繁體中文</option>
+                  <option value="fa">🇮🇷 فارسی</option>
+                  <option value="id">🇮🇩 Bahasa Indonesia</option>
+                </optgroup>
+                <optgroup label="África">
+                  <option value="sw">🇰🇪 Kiswahili</option>
+                  <option value="yo">🇳🇬 Yorùbá</option>
                 </optgroup>
               </select>
             </label>

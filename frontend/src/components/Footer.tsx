@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useApp, ViewMode } from '@/context/AppContext';
+import { translations } from '@/lib/translations';
 import { 
   BookOpen, 
   Briefcase, 
@@ -17,7 +18,8 @@ import {
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { setCurrentView } = useApp();
+  const { setCurrentView, language } = useApp();
+  const t = translations[language.startsWith('en') ? 'en' : 'pt-BR'].footer;
 
   const handleNavClick = (view: ViewMode) => {
     setCurrentView(view);
@@ -60,43 +62,43 @@ export const Footer: React.FC = () => {
           {/* Col 2: Modos do EnsineSLZ */}
           <div>
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
-              Modos da Plataforma
+              {t.modesTitle}
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
                 <button onClick={() => handleNavClick('descoberta')} className="hover:text-amber-400 transition flex items-center gap-1.5">
                   <Compass className="w-3.5 h-3.5 text-slz-400" />
-                  Modo D — Descoberta de Caminhos
+                  {t.discoverMode}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('aprender')} className="hover:text-amber-400 transition flex items-center gap-1.5">
                   <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
-                  Modo A — Aprender & Trilhas
+                  {t.learnMode}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('projetos')} className="hover:text-amber-400 transition flex items-center gap-1.5">
                   <FolderKanban className="w-3.5 h-3.5 text-indigo-400" />
-                  Modo P — Projetos e Desafios
+                  {t.projectsMode}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('oportunidades')} className="hover:text-amber-400 transition flex items-center gap-1.5">
                   <Briefcase className="w-3.5 h-3.5 text-amber-400" />
-                  Modo O — Oportunidades SLZ
+                  {t.opportunitiesMode}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('verificacao')} className="hover:text-amber-400 transition flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  Modo V — Verificação de Fontes
+                  {t.verifyMode}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('utilidades')} className="hover:text-amber-400 transition flex items-center gap-1.5">
                   <Wrench className="w-3.5 h-3.5 text-slate-400" />
-                  Modo S — Utilidades e Ferramentas
+                  {t.utilitiesMode}
                 </button>
               </li>
             </ul>
@@ -105,34 +107,34 @@ export const Footer: React.FC = () => {
           {/* Col 3: Utilidades & Acessibilidade */}
           <div>
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
-              Recursos & Cidade
+              {t.resourcesTitle}
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
                 <button onClick={() => handleNavClick('mapa')} className="hover:text-amber-400 transition flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-amber-400" />
-                  Mapa de Oportunidades em São Luís
+                  {t.mapOpportunity}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('utilidades')} className="hover:text-amber-400 transition">
-                  Calculadora de Notas & Média
+                  {t.calcGrades}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('utilidades')} className="hover:text-amber-400 transition">
-                  Gerador de Plano de Estudos
+                  {t.studyPlan}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('utilidades')} className="hover:text-amber-400 transition">
-                  Calendário de Prazos e Provas
+                  {t.calendar}
                 </button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('sobre')} className="hover:text-amber-400 transition flex items-center gap-1.5">
                   <Accessibility className="w-3.5 h-3.5 text-slz-400" />
-                  Recursos de Acessibilidade
+                  {t.accessibility}
                 </button>
               </li>
             </ul>
@@ -141,16 +143,16 @@ export const Footer: React.FC = () => {
           {/* Col 4: Transparência & Privacidade */}
           <div>
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">
-              Privacidade & Transparência
+              {t.privacyTitle}
             </h3>
             <p className="text-xs text-slate-400 mb-3 leading-relaxed">
-              Respeitamos seus dados de acordo com a Lei Geral de Proteção de Dados (LGPD). Não coletamos informações desnecessárias.
+              {t.privacyText}
             </p>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li className="hover:text-white transition cursor-pointer">Termos de Uso</li>
-              <li className="hover:text-white transition cursor-pointer">Política de Privacidade</li>
-              <li className="hover:text-white transition cursor-pointer">Canal de Denúncias & Conteúdo</li>
-              <li className="hover:text-white transition cursor-pointer">Instituições Parceiras de SLZ</li>
+              <li className="hover:text-white transition cursor-pointer">{t.terms}</li>
+              <li className="hover:text-white transition cursor-pointer">{t.privacy}</li>
+              <li className="hover:text-white transition cursor-pointer">{t.reports}</li>
+              <li className="hover:text-white transition cursor-pointer">{t.partners}</li>
             </ul>
           </div>
 
@@ -158,10 +160,10 @@ export const Footer: React.FC = () => {
 
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p className="flex items-center gap-1">
-            Feito com <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500" /> para estudantes e educadores de São Luís — Maranhão.
+            {t.love} <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500" /> {t.footerNote}
           </p>
           <p>
-            © 2026 EnsineSLZ. Todos os direitos reservados.
+            {t.rights}
           </p>
         </div>
       </div>
