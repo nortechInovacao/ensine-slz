@@ -1,45 +1,51 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from "react";
+import Script from "next/script";
 
 declare global {
   interface Window {
     VLibras?: {
-      Widget: new (url: string) => unknown;
+      Widget: new (url: string) => void;
     };
+    vlibrasInitialized?: boolean;
   }
 }
 
-export function VlibrasWidget() {
+export default function VLibras() {
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+
   useEffect(() => {
-    const scriptId = 'vlibras-widget-script';
-    const initKey = 'vlibras-widget-initialized';
-
-    const initializeWidget = () => {
-      const VLibras = window.VLibras;
-      if (!VLibras?.Widget) {
-        return;
-      }
-
-      const globalState = window as typeof window & { [key: string]: unknown };
-      if (!globalState[initKey]) {
-        globalState[initKey] = true;
-        new VLibras.Widget('https://vlibras.gov.br/app');
+    const initVLibras = () => {
+      if (typeof window !== "undefined" && window.VLibras && !window.vlibrasInitialized) {
+        try {
+          new window.VLibras.Widget("https://vlibras.gov.br/app");
+          window.vlibrasInitialized = true;
+        } catch (error) {
+          console.error("Erro ao inicializar VLibras:", error);
+        }
       }
     };
 
-    if (!document.getElementById(scriptId)) {
-      const script = document.createElement('script');
-      script.id = scriptId;
-      script.src = 'https://vlibras.gov.br/app/script.js';
-      script.async = true;
-      script.onload = initializeWidget;
-      document.body.appendChild(script);
-      return;
+    if (scriptLoaded) {
+      initVLibras();
     }
+  }, [scriptLoaded]);
 
-    initializeWidget();
-  }, []);
+  return (
+    <>
+      <div {...{ vw: "true" }} className="enabled">
+        <div {...{ "vw-access-button": "true" }} className="active"></div>
+        <div {...{ "vw-plugin-wrapper": "true" }}>
+          <div className="vw-plugin-top-wrapper"></div>
+        </div>
+      </div>
 
-  return null;
+      <Script
+        src="https://vlibras.gov.br/app/vlibras-plugin.js"
+        strategy="afterInteractive"
+        onLoad={() => setScriptLoaded(true)}
+      />
+    </>
+  );
 }
